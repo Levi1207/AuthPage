@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <style>
+    span{
+      text-decoration: underline;
+    }
+  </style>
+  <body>
+    <video autoplay muted loop id="myVideo">
+      <source src="./back2.mp4" type="video/mp4" />
+    </video>
+    <div class="container form">
+      <h1>Админ Панель</h1>
+      <p>
+        Добро пожаловать <span>Aдминистратор</span>. Здесь вы можете изменять
+        роли
+      </p>
+      <br />
+      <table id="users-table">
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Роль</th>
+            <th>Действие</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Users will be populated here dynamically -->
+        </tbody>
+      </table>
+      <br />
+      <button id="logout">Выйти</button>
+    </div>
+    <script src="/app.js"></script>
+    <script>
+      // Fetch users and populate the table
+      async function fetchUsers() {
+          const response = await fetch("/admin/users"); // Получаем пользователей с сервера
+          if (response.ok) {
+              const users = await response.json();
+              const tbody = document.querySelector("#users-table tbody");
+              tbody.innerHTML = "";
+
+              users.forEach((user) => {
+                  const row = document.createElement("tr");
+
+                  // Колонка с именем пользователя
+                  const usernameCell = document.createElement("td");
+                  usernameCell.innerText = user.username;
+                  row.appendChild(usernameCell);
+
+                  // Колонка с текущей ролью
+                  const roleCell = document.createElement("td");
+                  const select = document.createElement("select");
+                  ["user", "vip", "admin"].forEach((role) => {
+                      const option = document.createElement("option");
+                      option.value = role;
+                      option.innerText = role;
+                      option.selected = user.role === role;
+                      select.appendChild(option);
+                  });
+                  roleCell.appendChild(select);
+                  row.appendChild(roleCell);
+
+                  // Колонка с кнопкой "Save"
+                  const actionCell = document.createElement("td");
+                  const saveButton = document.createElement("button");
+                  saveButton.innerText = "Сохранить";
+                  saveButton.addEventListener("click", () =>
+                      updateRole(user.username, select.value)
+                  );
+                  actionCell.appendChild(saveButton);
+                  row.appendChild(actionCell);
+
+                  tbody.appendChild(row);
+              });
+          } else {
+              alert("Error fetching users");
+          }
+      }
+
+      // Функция для обновления роли пользователя
+      async function updateRole(username, newRole) {
+          const response = await fetch("/change-role", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ username, role: newRole }),
+          });
+
+          if (response.ok) {
+              alert("Роль изменена Успешно");
+              fetchUsers(); // Обновляем список после изменения
+          } else {
+              alert("Ошибка в изменении Роли");
+          }
+      }
+
+      // Запрашиваем список пользователей при загрузке страницы
+      window.onload = fetchUsers;
+    </script>
+  </body>
+</html>
