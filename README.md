@@ -29,7 +29,7 @@
 
 1. **Клонируйте репозиторий:**
    ```bash
-   git clone https://github.com/yourusername/AuthPage.git
+   git clone https://github.com/Levi1207/AuthPage.git    
    cd AuthPage
    
 2. **Установите зависимости:**
