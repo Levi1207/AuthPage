@@ -67,7 +67,7 @@
 - *5.* Откройте Pull Request.
 
 ## 📞 Контакты
-- **Telegtam: [@Levi_Ezio](https://t.me/Levi_Ezio)** 
+- **Telegram: [@Levi_Ezio](https://t.me/Levi_Ezio)** 
 - **GitHub: [@Levi](https://github.com/Levi1207)** 
 
 ## ⭐️ Не забудьте поставить звезду, если проект вам полезен!
