@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <video autoplay muted loop id="myVideo">
+      <source src="./back2.mp4" type="video/mp4" />
+    </video>
+    <div class="container">
+      <div class="glass-block">
+        <h1 class="typing animate"></h1>
+        <div class="buttons">
+          <a href="/register.html" class="btn">Регистрация</a>
+          <a href="/login.html" class="btn">Вход</a>
+        </div>
+      </div>
+    </div>
+
+    <script src="/app.js"></script>
+    <script>
+      $(document).ready(() => {
+          let typingElement = $(".typing");
+
+          typingElement.on("click", (e) => {
+              typingElement.removeClass("animate");
+              setTimeout(() => typingElement.addClass("animate"), 1);
+          });
+      });
+    </script>
+  </body>
+</html>

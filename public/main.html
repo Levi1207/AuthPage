@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Main Page</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <video autoplay muted loop id="myVideo">
+      <source src="./back2.mp4" type="video/mp4" />
+    </video>
+    <div class="container form">
+      <div>
+        Добро Пожаловать
+        <h1><span id="username"></span></h1>
+      </div>
+      <p>
+        У вас роль: <b><span id="role" class="role"></span></b>
+      </p>
+      <br />
+      <button id="logout">Выйти</button>
+    </div>
+    <script src="/app.js"></script>
+    <script>
+      async function fetchUserInfo() {
+          const response = await fetch("/users");
+          if (response.ok) {
+              const data = await response.json();
+              document.getElementById("username").innerText =
+                  data.username;
+              document.getElementById("role").innerText = data.role;
+
+              // Если пользователь администратор, перенаправляем на admin.html
+              if (data.role === "admin") {
+                  window.location.href = "/admin.html";
+              }
+          } else {
+              window.location.href = "/login.html"; // Если не авторизован, перенаправляем на страницу входа
+          }
+      }
+
+      window.onload = fetchUserInfo;
+    </script>
+  </body>
+</html>
